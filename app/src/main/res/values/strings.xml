@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">始终</string>
+    <!--<string name="app_name">潜行笔记</string>-->
+    <string name="app_name">言必行笔记</string>
     <string name="slogan01">不\n忘\n初\n心</string>
     <string name="slogan02">方\n得\n始\n终</string>
     <string name="update_date">2018/04/15</string>
@@ -9,5 +10,5 @@
     <string name="data_error">数据错误</string>
     <string name="time_out_error">连接超时</string>
     <string name="change_theme_need_refresh_flag">change_theme_need_refresh</string>
-    <string name="introduce">帮助制定及管理一些乱七八糟的计划，同时提供了几个并没什么用的小工具。\n对了，作者比较穷，也比较忙，所以这个 APP 没有后台服务，数据不会云同步，卸载了数据就没了，更新可能也就没了，但是也不一定，到时候看更新说明（如果有的话）。\n-顺手给我点个 star 呗，就在最下面。</string>
+    <string name="introduce">“%1$s”是一款关于每日修行的进步笔记，它跟一般的笔记不同，不仅可以记录单项任务，最大的特点是融入日程的功能，把目标进行分解，让每天、每个阶段留下努力奋斗的足迹，见证和鞭策你前行。故谓之“潜行笔记”！</string>
 </resources>
