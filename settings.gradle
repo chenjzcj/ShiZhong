@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':gdtlib-release', ':commonlibrary-release'

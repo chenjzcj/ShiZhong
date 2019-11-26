@@ -1,6 +1,5 @@
 <resources>
-    <!--<string name="app_name">潜行笔记</string>-->
-    <string name="app_name">言必行笔记</string>
+    <string name="app_name">始终</string>
     <string name="slogan01">不\n忘\n初\n心</string>
     <string name="slogan02">方\n得\n始\n终</string>
     <string name="update_date">2018/04/15</string>

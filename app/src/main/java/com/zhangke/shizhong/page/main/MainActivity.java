@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,10 @@ import com.zhangke.shizhong.common.APPConfig;
 import com.zhangke.shizhong.common.CustomFragmentPagerAdapter;
 import com.zhangke.shizhong.event.PosterHideChangedEvent;
 import com.zhangke.shizhong.event.ThemeChangedEvent;
+import com.zhangke.shizhong.gdt.NativeADCommonActivity;
 import com.zhangke.shizhong.page.base.BaseActivity;
-import com.zhangke.shizhong.page.todo.ShowTodoFragment;
 import com.zhangke.shizhong.page.plan.ShowPlanFragment;
+import com.zhangke.shizhong.page.todo.ShowTodoFragment;
 import com.zhangke.shizhong.util.ThemeUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.ll_root)
     ViewGroup llRoot;
-//    @BindView(R.id.view_toolbar_divider)
+    //    @BindView(R.id.view_toolbar_divider)
 //    View viewToolbarDivider;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         initFragment();
+        NativeADCommonActivity.showNativeADDialog(this, NativeADCommonActivity.NATIVE_AD_TYPE2, -1);
     }
 
     private void initFragment() {
@@ -102,11 +103,11 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.img_setting:
                 viewPager.setCurrentItem(2);
-                if(System.currentTimeMillis() - lastClickTime < 300){
-                    switchCount ++;
+                if (System.currentTimeMillis() - lastClickTime < 300) {
+                    switchCount++;
                 }
                 lastClickTime = System.currentTimeMillis();
-                if(switchCount >= 3){
+                if (switchCount >= 3) {
                     APPConfig.setPosterHide(!APPConfig.posterHide());
                     EventBus.getDefault().post(new PosterHideChangedEvent());
                     switchCount = 0;
@@ -120,7 +121,7 @@ public class MainActivity extends BaseActivity {
         refreshUI();
     }
 
-    private void refreshUI(){
+    private void refreshUI() {
         ThemeUtils.refreshUI(this, llRoot);
         initStatusBar();
         TypedValue toolbarColor = new TypedValue();
@@ -136,5 +137,11 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        NativeADCommonActivity.showNativeADDialog(this, NativeADCommonActivity.NATIVE_AD_TYPE1, NativeADCommonActivity.OK_ACTION_TYPE_EXIT);
     }
 }

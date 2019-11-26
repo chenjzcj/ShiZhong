@@ -9,10 +9,81 @@ android {
         applicationId "com.ykxia.www"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        flavorDimensions "company"
+        productFlavors {
+            //潜行笔记-微影(shizhong.jks)
+            QIANXING {
+                applicationId "com.weiyingvideo.www"
+                dimension "company"
+
+                //是否隐藏启动闪屏页下面的产品Logo,1为隐藏,0为不隐藏
+                buildConfigField "String", "HIDDEN_BOTTOM_LOGO", '"1"'
+
+                //-----------------------广告通广告参数配置start-----------------------
+                //-----------------------媒体   ID-----------------------
+                buildConfigField "String", "APPID", '"1109533176"'
+                //-----------------------广告位 ID-----------------------
+                //【开屏】
+                buildConfigField "String", "SPLASH_POSID", '"7050362966423901"'
+                //【Banner 2.0】
+                buildConfigField "String", "BANNER2_POSID", '""'
+                //【信息流】
+                buildConfigField "String", "NATIVE_POSID_INFO_FLOW", '"5010163936223923"'
+                //【原生广告-模板类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_TPL", '""'
+                //【原生广告-模板类型 第二个】
+                buildConfigField "String", "NATIVE_POSID_TYPE_TPL_2", '""'
+                //【原生广告-自渲染 2.0类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_2", '""'
+                //【原生广告-自渲染 1.0类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_1_1", '"7070766936629928"'
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_1_2", '"8030462996826979"'
+                //【插屏广告 2.0】
+                buildConfigField "String", "INTERSTITIAL_POSID_2", '""'
+                //【激励视频广告】
+                buildConfigField "String", "REWARD_VIDEO_POSID", '""'
+                //-----------------------广告通广告参数配置end-----------------------
+            }
+            //言必行笔记-优视侠
+            YANBIXING {
+                applicationId "com.ykxia.www"
+                dimension "company"
+
+                //是否隐藏启动闪屏页下面的产品Logo,1为隐藏,0为不隐藏
+                buildConfigField "String", "HIDDEN_BOTTOM_LOGO", '"1"'
+
+                //-----------------------广告通广告参数配置start-----------------------
+                //-----------------------媒体   ID-----------------------
+                buildConfigField "String", "APPID", '"1109611938"'
+                //-----------------------广告位 ID-----------------------
+                //【开屏】
+                buildConfigField "String", "SPLASH_POSID", '"6080071321550425"'
+                //【Banner 2.0】
+                buildConfigField "String", "BANNER2_POSID", '""'
+                //【信息流】
+                buildConfigField "String", "NATIVE_POSID_INFO_FLOW", '"2020078311755502"'
+                //【原生广告-模板类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_TPL", '""'
+                //【原生广告-模板类型 第二个】
+                buildConfigField "String", "NATIVE_POSID_TYPE_TPL_2", '""'
+                //【原生广告-自渲染 2.0类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_2", '""'
+                //【原生广告-自渲染 1.0类型】
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_1_1", '"1080576391559487"'
+                buildConfigField "String", "NATIVE_POSID_TYPE_SELF_RENDER_1_2", '"2090377351553540"'
+                //【插屏广告 2.0】
+                buildConfigField "String", "INTERSTITIAL_POSID_2", '""'
+                //【激励视频广告】
+                buildConfigField "String", "REWARD_VIDEO_POSID", '""'
+                //-----------------------广告通广告参数配置end-----------------------
+            }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -22,11 +93,34 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outFile = output.outputFile
+
+                    //渠道名称
+                    def buildName = "Unknown"
+                    variant.productFlavors.each { product ->
+                        buildName = product.name
+                    }
+                    if (outFile != null && outFile.name.endsWith('.apk')) {
+                        //包名格式如下：应用名_版本名_构建类型_版本码_渠道.apk
+                        //包名示例如下：TOKOK_2.2.1_debug_19_GOOGLEPLAY.apk(默认debug)
+                        def fileName = "${buildName}_${defaultConfig.versionName}_${releaseTime()}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+}
+
+//版本发布时间，参考：设置build.gradle打包时自动加时间https://blog.csdn.net/yzwfeng/article/details/83184514
+static def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
 }
 
 dependencies {
@@ -67,6 +161,22 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     //常用工具套装 https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcode:1.23.7'
+    implementation project(path: ':gdtlib-release')
+
+    //UI库RxTool  https://github.com/Tamsiree/RxTool ,提供各种颜色,尺寸等值
+    implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    //rxjava/rxandroid
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //cardview
+    implementation 'androidx.cardview:cardview:1.0.0'
+    //一定要导入这个
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    //xbanner https://github.com/xiaohaibin/XBanner
+    implementation 'com.xhb:xbanner:1.5.1'
+    implementation project(path: ':commonlibrary-release')
 }
 
 greendao {

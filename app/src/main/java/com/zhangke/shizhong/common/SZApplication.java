@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.support.multidex.MultiDexApplication;
 
+import com.felix.gdtlib.helper.TencentAdHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.zhangke.shizhong.db.DBManager;
+import com.zhangke.shizhong.gdt.TencentAdIDsImpl;
 import com.zhangke.shizhong.service.ProcessPlanService;
 import com.zhangke.shizhong.util.CrashHandler;
 import com.zhangke.shizhong.util.FileUtils;
@@ -42,6 +44,7 @@ public class SZApplication extends MultiDexApplication {
         }
 
         startService(new Intent(this, ProcessPlanService.class));
+        TencentAdHelper.getInstance().setTencentAdIDs(new TencentAdIDsImpl());
     }
 
     public static SZApplication getInstance() {

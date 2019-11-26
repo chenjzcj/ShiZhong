@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zhangke.shizhong">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- 广点通权限start -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 如果需要精确定位的话请加上此权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 如果您打包 App 时的 targetSdkVersion >= 26 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".common.SZApplication"
@@ -17,35 +24,46 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/round_logo"
         android:supportsRtl="true"
-        android:theme="@style/NightTheme">
-        <activity android:name=".page.main.LaunchActivity">
+        android:theme="@style/NightTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".gdt.SplashWithAdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.main.MainActivity"/>
+        <activity
+            android:name=".gdt.NativeADCommonActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity android:name=".page.main.LaunchActivity" />
+        <activity android:name=".page.main.MainActivity" />
         <activity android:name=".page.poster.InputNameActivity" />
         <activity android:name=".page.poster.SearchResultActivity" />
         <activity android:name=".page.poster.ShowMusicPosterActivity" />
         <activity android:name=".page.poster.ShowMoviePosterActivity" />
         <activity android:name=".page.poster.ShowMusicAlbumActivity" />
         <activity android:name=".page.application.ApplicationStatisticsActivity" />
-        <activity android:name=".page.application.SearchApplicationActivity"/>
-        <activity android:name=".page.plan.AddPlanActivity"/>
-        <activity android:name=".page.plan.EditPlanActivity"/>
-        <activity android:name=".page.todo.AddTodoActivity"/>
-        <activity android:name=".page.plan.RationPlanDetailActivity"/>
-        <activity android:name=".page.todo.CompletedTodoActivity"/>
-        <activity android:name=".page.plan.ClockPlanDetailActivity"/>
-        <activity android:name=".page.other.WifiInfoActivity"/>
-        <activity android:name=".page.other.QRCodeActivity"/>
-        <activity android:name=".page.other.ShowQRCodeContentActivity"/>
-        <activity android:name=".page.other.AboutActivity"/>
-        <activity android:name=".page.other.TaxCalculationActivity"/>
+        <activity android:name=".page.application.SearchApplicationActivity" />
+        <activity android:name=".page.plan.AddPlanActivity" />
+        <activity android:name=".page.plan.EditPlanActivity" />
+        <activity android:name=".page.todo.AddTodoActivity" />
+        <activity android:name=".page.plan.RationPlanDetailActivity" />
+        <activity android:name=".page.todo.CompletedTodoActivity" />
+        <activity android:name=".page.plan.ClockPlanDetailActivity" />
+        <activity android:name=".page.other.WifiInfoActivity" />
+        <activity android:name=".page.other.QRCodeActivity" />
+        <activity android:name=".page.other.ShowQRCodeContentActivity" />
+        <activity android:name=".page.other.AboutActivity" />
+        <activity android:name=".page.other.TaxCalculationActivity" />
 
-        <service android:name=".service.ProcessPlanService"/>
+        <service android:name=".service.ProcessPlanService" />
 
         <!--友盟统计-->
         <meta-data
@@ -54,6 +72,32 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="UMENG" />
+
+        <!-- 广点通组件声明start -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" />
+
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" /> <!-- targetSDKVersion >= 24时才需要添加这个provider。provider的authorities属性的值为${applicationId}.fileprovider，请开发者根据自己的${applicationId}来设置这个值，例如本例中applicationId为"com.qq.e.union.demo"。 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.clf.cj2048.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
 
     </application>
 
